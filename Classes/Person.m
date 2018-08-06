@@ -108,10 +108,10 @@ void dynamicallyResolvingMethodRun(id self, SEL _cmd)
     logOrder ++;
     if (anInvocation.selector == @selector(run)
         || anInvocation.selector == @selector(classMethod)) {
-        anInvocation.selector = NSSelectorFromString(@"MechineRun");
-        Mechine *forwardInvocation = [[Mechine alloc] init];
-        [anInvocation invokeWithTarget:forwardInvocation];
-//        [self doesNotRecognizeSelector:anInvocation.selector];
+//        anInvocation.selector = NSSelectorFromString(@"MechineRun");
+//        Mechine *forwardInvocation = [[Mechine alloc] init];
+//        [anInvocation invokeWithTarget:forwardInvocation];
+        [self doesNotRecognizeSelector:anInvocation.selector];
     }else {
         [super forwardInvocation:anInvocation];
     }
