@@ -11,6 +11,14 @@
 
 static int logOrder = 0;
 
+#pragma mark - Book
+@interface Book : NSObject
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *author;
+@end
+@implementation Book
+@end
+
 #pragma mark - Mechine
 @interface Mechine : NSObject
 @end
@@ -32,12 +40,25 @@ static int logOrder = 0;
 @end
 
 #pragma mark - Person
+@interface Person ()
+@property (nonatomic, strong) NSString *privateMember;
+@property (nonatomic, strong) Book *book;
+@end
 @implementation Person
+@synthesize from=_from,to=_to;//@synthesize声明协议walkDelegate的属性from和to，生成相应的成员变量_from,_to，并生成对应的getter和setter方法
 -(instancetype)init
 {
     self = [super init];
     if (self) {
         logOrder = 1;
+        _isIvar = 1;
+        _name = @"HelloWorld";
+        _gender = 0;
+        _age = 28;
+        _privateMember = @"privateMember";
+        _book = [[Book alloc] init];
+        _book.name = @"Beauty and Beast";
+        _book.author = @"None";
     }
     return self;
 }
@@ -49,6 +70,29 @@ void dynamicallyResolvingMethodRun(id self, SEL _cmd)
 {
     NSLog(@"Dynamically Rosolving Method Runing");
 }
+
+#pragma mark - 动态添加方法
+-(void)addMethod:(SEL)sel
+{
+    class_addMethod([self class], sel, (IMP)dynamicallyAddMethodImp, "v@:");
+}
+void dynamicallyAddMethodImp(id self, SEL _cmd)
+{
+    NSLog(@"Dynamically add method:%@ successfully", NSStringFromSelector(_cmd));
+}
+
+#pragma mark - 交换方法
+-(NSString *)exchangeImplementationA
+{
+    return @"A";
+}
+-(NSString *)exchangeImplementationB
+{
+    return @"B";
+}
+
+
+#pragma mark - Runtime消息传递和转发机制
 /** 消息发送，动态方法解析，分为实例方法和类方法 Start */
 +(BOOL)resolveInstanceMethod:(SEL)sel//实例方法的动态方法解析，如果返回NO，则进入转发，返回YES重新进入lookUpImpOrForward:的Retry标签
 {
@@ -117,4 +161,51 @@ void dynamicallyResolvingMethodRun(id self, SEL _cmd)
     }
 }
 /** 消息转发之二，消息重定向，依然是实例方法能进行，类方法没有 End */
+
+#pragma mark - NSCoding
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{//归档
+    unsigned int count = 0;
+    Ivar *varList = class_copyIvarList(self.class, &count);
+    for (int i = 0; i < count; i ++) {
+        Ivar var = varList[i];
+        NSString *varName = [NSString stringWithUTF8String:ivar_getName(var)];
+        [aCoder encodeObject:[self valueForKey:varName] forKey:varName];
+    }
+    free(varList);
+}
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{//解档
+    self = [super init];
+    if (self) {
+        unsigned int count = 0;
+        Ivar *varList = class_copyIvarList(self.class, &count);
+        for (int i = 0; i < count; i ++) {
+            Ivar var = varList[i];
+            NSString *varName = [NSString stringWithUTF8String:ivar_getName(var)];
+            id value = [aDecoder decodeObjectForKey:varName];
+            [self setValue:value forKey:varName];
+        }
+        free(varList);
+    }
+    return self;
+}
+
+#pragma mark - 字典转模型
++(instancetype)modelWithDictionary:(NSDictionary *)dict
+{
+    Person *model = [[self alloc] init];
+    [model setValuesForKeysWithDictionary:dict];
+//    unsigned int count = 0;
+//    Ivar *varList = class_copyIvarList(self, &count);
+//    for (int i = 0; i < count; i ++) {
+//        Ivar var = varList[i];
+//        NSString *varName = [NSString stringWithUTF8String:ivar_getName(var)];//成员变量名
+//        NSString *propertyKey = [varName substringFromIndex:1];//属性变量名
+//    }
+//    free(varList);
+    return model;
+}
+
+
 @end

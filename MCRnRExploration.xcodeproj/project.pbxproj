@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B9C658421184E3600E0A678 /* Person+Engineer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9C658321184E3600E0A678 /* Person+Engineer.m */; };
 		5BBEBF612112DB3B00B3EF74 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEBF602112DB3B00B3EF74 /* main.m */; };
 		5BBEBF692112E77A00B3EF74 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEBF682112E77A00B3EF74 /* Person.m */; };
 		5BBEBF722112EA6100B3EF74 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBEBF712112EA6100B3EF74 /* AppDelegate.m */; };
@@ -49,6 +50,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B9C658221184E3600E0A678 /* Person+Engineer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Person+Engineer.h"; sourceTree = "<group>"; };
+		5B9C658321184E3600E0A678 /* Person+Engineer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Person+Engineer.m"; sourceTree = "<group>"; };
 		5BBEBF5D2112DB3B00B3EF74 /* MCRnRExploration */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MCRnRExploration; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BBEBF602112DB3B00B3EF74 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BBEBF672112E39A00B3EF74 /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
@@ -173,6 +176,8 @@
 			children = (
 				5BBEBF672112E39A00B3EF74 /* Person.h */,
 				5BBEBF682112E77A00B3EF74 /* Person.m */,
+				5B9C658221184E3600E0A678 /* Person+Engineer.h */,
+				5B9C658321184E3600E0A678 /* Person+Engineer.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 			files = (
 				5BBEBF692112E77A00B3EF74 /* Person.m in Sources */,
 				5BBEBF612112DB3B00B3EF74 /* main.m in Sources */,
+				5B9C658421184E3600E0A678 /* Person+Engineer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
