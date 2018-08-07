@@ -9,6 +9,19 @@
 #import "Person+Engineer.h"
 #import <objc/message.h>
 
+@implementation NSArray (BeyondBoundsException)
+
+-(id)OoR_objectAtIndex:(NSUInteger)index
+{
+    if (index >= self.count) {
+        return nil;
+    }
+    return [self OoR_objectAtIndex:index];//因为已经交换了实现，所以为了不陷入死循环，必须调用的是OoR_objectAtIndex:
+}
+
+@end
+
+
 //虽然添加了关联，但还是没有对应的成员变量的
 @implementation Person (Engineer)
 

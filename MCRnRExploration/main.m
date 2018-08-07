@@ -20,7 +20,7 @@
  */
 
 #import "Person.h"
-#import "Person+Engineer.h"//分类，演示动态添加属性
+#import "Person+Engineer.h"//分类，演示动态添加属性和处理数组访问越界异常
 
 
 #pragma mark - main
@@ -28,8 +28,19 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         Person *p = [[Person alloc] init];
         NSLog(@"Number Of Failure:%d",p->_isIvar);//访问声明称public的成员变量，需要使用->，而访问属性使用的是‘.’
+        p.from = @"Shenzhen";
+        p.to = @"Quanzhou";
         [p eat];
         printf("/*************************************************************************************************************************/\n");
+/********************************************************************************/
+
+        /** Runtime应用，处理异常导致的崩溃 Start */
+        NSArray *arr = @[@1,@2,@3,@4];
+        Method oriMethod = class_getInstanceMethod(arr.class, @selector(objectAtIndex:));
+        Method curMethod = class_getInstanceMethod(arr.class, @selector(OoR_objectAtIndex:));
+        method_exchangeImplementations(oriMethod, curMethod);//交换数组访问方法，以捕获数组访问越界异常
+        NSLog(@"NSArray arr:%@\narr[3]=%@\narr[10]=%@",arr,[arr objectAtIndex:3],[arr objectAtIndex:10]);
+        /** Runtime应用，处理异常导致的崩溃 End */
         
 /********************************************************************************/
         

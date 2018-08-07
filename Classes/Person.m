@@ -45,7 +45,7 @@ static int logOrder = 0;
 @property (nonatomic, strong) Book *book;
 @end
 @implementation Person
-@synthesize from=_from,to=_to;//@synthesize声明协议walkDelegate的属性from和to，生成相应的成员变量_from,_to，并生成对应的getter和setter方法
+@synthesize from=_from,to=_to;//@synthesize声明协议walkDelegate的属性from和to，生成相应的成员变量_from,_to，并生成对应的getter和setter方法,如果不使用关键词@synthesize进行修饰，则在使用的时候会因为缺少相应的方法而崩溃，提示unrecognized selector；可以手动添加属性实现代码来替代@synthesize
 -(instancetype)init
 {
     self = [super init];
